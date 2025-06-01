@@ -1,13 +1,15 @@
 extends CharacterBody2D
 
 #Editable
-var move_speed = 250
+var move_speed = 40
 var rotation_speed = 5.0
 
 var maxShieldHealth = 100.0
 var shieldRegenRate = 10.0 #per second
 
-#States
+var dashDistance = 600
+
+#States`
 var ableToAttack : bool = true
 var isDefending : bool = false
 var shieldUp : bool = false
@@ -25,7 +27,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	debugFunc()
 	
-	calculateMovement()
+	calculateMovement(delta)
 	pointStuffAtCursor(delta)
 	shieldLogic(delta)
 	
@@ -43,7 +45,7 @@ func pointStuffAtCursor(delta) -> void:
 	$CursorHolder.rotation = lerp_angle(current_rotation, target_rotation, rotation_speed * delta)
 
 #Handles player movement
-func calculateMovement() -> void:
+func calculateMovement(delta) -> void:
 	direction = Vector2.ZERO
 	if Input.is_action_pressed("up"):
 		direction += Vector2(0, -1)
@@ -54,13 +56,15 @@ func calculateMovement() -> void:
 	if Input.is_action_pressed("right"):
 		direction += Vector2(1, 0)
 	
-	velocity = direction.normalized() * move_speed
+	velocity += (direction.normalized() * move_speed)
 	move_and_slide()
+	velocity = lerp(velocity, Vector2.ZERO, 0.125)
 
 func attack() -> void:
 	if ableToAttack && !isDefending:
 		$AnimationPlayer.play('slash')
 		$SlashCooldown.start()
+		velocity += (get_global_mouse_position() - position).normalized() * dashDistance
 		ableToAttack = false
 
 func shieldLogic(delta) -> void:
