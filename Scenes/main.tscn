@@ -1,8 +1,9 @@
-[gd_scene load_steps=49 format=4 uid="uid://cuyfn2pcpsmmj"]
+[gd_scene load_steps=50 format=4 uid="uid://cuyfn2pcpsmmj"]
 
 [ext_resource type="Texture2D" uid="uid://bpmhq8g4mjl4y" path="res://Art/TileSet_V2.png" id="1_ygiju"]
 [ext_resource type="PackedScene" uid="uid://cqdrk05neld4j" path="res://Character/Character.tscn" id="2_4wie0"]
 [ext_resource type="PackedScene" uid="uid://cpohceju1pgyh" path="res://Character/camera.tscn" id="3_vw80v"]
+[ext_resource type="PackedScene" uid="uid://bg7u7yooh8fp6" path="res://Enemies/base_enemy.tscn" id="4_lq6x7"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_1nauy"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
@@ -34,7 +35,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
 agent_radius = 0.0
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_glbe0"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_gj4sc"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
@@ -112,7 +113,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
 agent_radius = 0.0
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_l4mxl"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_k4m06"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
@@ -148,7 +149,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
 agent_radius = 0.0
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_5ri0w"]
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_mdibc"]
 vertices = PackedVector2Array(16, 16, -16, 16, -16, -16, 16, -16)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)])
@@ -1404,7 +1405,7 @@ texture_region_size = Vector2i(32, 32)
 0:6/0/terrains_peering_bit/top_left_corner = 0
 0:6/0/terrains_peering_bit/top_side = 0
 0:6/0/terrains_peering_bit/top_right_corner = 0
-0:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_glbe0")
+0:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_gj4sc")
 1:6/0 = 0
 1:6/0/terrain_set = 0
 1:6/0/terrain = 0
@@ -1428,7 +1429,7 @@ texture_region_size = Vector2i(32, 32)
 2:6/0/terrains_peering_bit/top_left_corner = 0
 2:6/0/terrains_peering_bit/top_side = 0
 2:6/0/terrains_peering_bit/top_right_corner = 0
-2:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_l4mxl")
+2:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_k4m06")
 3:6/0 = 0
 3:6/0/terrain_set = 0
 3:6/0/terrain = 0
@@ -1440,7 +1441,7 @@ texture_region_size = Vector2i(32, 32)
 3:6/0/terrains_peering_bit/top_left_corner = 0
 3:6/0/terrains_peering_bit/top_side = 0
 3:6/0/terrains_peering_bit/top_right_corner = 0
-3:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_5ri0w")
+3:6/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_mdibc")
 
 [sub_resource type="TileSet" id="TileSet_r5vgx"]
 tile_size = Vector2i(32, 32)
@@ -1465,3 +1466,8 @@ tile_set = SubResource("TileSet_r5vgx")
 [node name="Character" parent="." instance=ExtResource("2_4wie0")]
 
 [node name="Camera" parent="." instance=ExtResource("3_vw80v")]
+
+[node name="EnemiesHolder" type="Node" parent="."]
+
+[node name="BaseEnemy" parent="EnemiesHolder" instance=ExtResource("4_lq6x7")]
+position = Vector2(341, -1)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqdrk05neld4j"]
+[gd_scene load_steps=14 format=3 uid="uid://cqdrk05neld4j"]
 
 [ext_resource type="Script" path="res://Character/character.gd" id="1_h41gx"]
 [ext_resource type="Texture2D" uid="uid://dtcv2mlerp4i5" path="res://icon.svg" id="2_rskxn"]
@@ -11,7 +11,7 @@ radius = 32.0
 size = Vector2(49, 69)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h63dg"]
-size = Vector2(20, 70)
+size = Vector2(5, 70)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4c1b1"]
 top_radius = 3.0
@@ -24,6 +24,9 @@ colors = PackedColorArray(0, 0, 0, 1, 0.162066, 0.162066, 0.162066, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_a1225"]
 gradient = SubResource("Gradient_xbxso")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xh38"]
+size = Vector2(63, 70)
 
 [sub_resource type="Animation" id="Animation_k3ywl"]
 length = 0.001
@@ -62,11 +65,11 @@ _data = {
 "slash": SubResource("Animation_5clig")
 }
 
-[node name="Character" type="CharacterBody2D"]
+[node name="Character" type="CharacterBody2D" groups=["Player"]]
+motion_mode = 1
 script = ExtResource("1_h41gx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_7gnnk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -76,7 +79,8 @@ texture = ExtResource("2_rskxn")
 [node name="CursorHolder" type="Node2D" parent="."]
 
 [node name="AttackArea" type="Area2D" parent="CursorHolder"]
-visible = false
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="CursorHolder/AttackArea"]
 position = Vector2(50.5, -0.5)
@@ -92,16 +96,24 @@ vframes = 4
 frame = 13
 
 [node name="DefendArea" type="Area2D" parent="CursorHolder"]
+position = Vector2(0, -0.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CursorHolder/DefendArea"]
-position = Vector2(33, 0)
+position = Vector2(40, 0.5)
 shape = SubResource("RectangleShape2D_h63dg")
 disabled = true
 
 [node name="Shield" type="MeshInstance2D" parent="CursorHolder"]
-position = Vector2(33, 0)
+position = Vector2(40, 0)
 mesh = SubResource("CylinderMesh_4c1b1")
 texture = SubResource("GradientTexture2D_a1225")
+
+[node name="ShieldBashArea" type="Area2D" parent="CursorHolder"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CursorHolder/ShieldBashArea"]
+position = Vector2(55.5, 0)
+shape = SubResource("RectangleShape2D_1xh38")
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -129,4 +141,5 @@ offset_top = 75.0
 offset_right = 19.0
 offset_bottom = 98.0
 
+[connection signal="body_entered" from="CursorHolder/AttackArea" to="." method="_attackAreaDetected"]
 [connection signal="timeout" from="SlashCooldown" to="." method="_on_slash_cooldown_timeout"]

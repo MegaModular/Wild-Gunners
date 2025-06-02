@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://bg7u7yooh8fp6"]
+
+[ext_resource type="Texture2D" uid="uid://dtcv2mlerp4i5" path="res://icon.svg" id="1_50uhe"]
+[ext_resource type="Script" path="res://Enemies/base_enemy.gd" id="1_ykqoq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p5634"]
+radius = 32.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ckgla"]
+radius = 32.0
+
+[node name="BaseEnemy" type="CharacterBody2D" groups=["Enemy"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_ykqoq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p5634")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_50uhe")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_ckgla")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 50.0
+path_postprocessing = 1
+simplify_path = true
+avoidance_enabled = true
+debug_enabled = true
