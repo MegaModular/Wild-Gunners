@@ -25,8 +25,8 @@ target_desired_distance = 50.0
 path_postprocessing = 1
 simplify_path = true
 avoidance_enabled = true
-radius = 16.0
 max_speed = 200.0
+debug_enabled = true
 
 [node name="RotationHelper" type="Node2D" parent="."]
 

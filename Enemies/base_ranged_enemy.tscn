@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkqg2jr7a0jiy"]
+
+[ext_resource type="PackedScene" uid="uid://bg7u7yooh8fp6" path="res://Enemies/base_enemy.tscn" id="1_8k0xy"]
+[ext_resource type="Script" path="res://Enemies/base_ranged_enemy.gd" id="2_jlocy"]
+
+[node name="BaseRangedEnemy" instance=ExtResource("1_8k0xy")]
+script = ExtResource("2_jlocy")
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="4"]
+collision_mask = 4
