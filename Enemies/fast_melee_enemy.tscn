@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8oltsey81de6"]
+
+[ext_resource type="PackedScene" uid="uid://bxeqp8li6sit3" path="res://Enemies/base_melee_enemy.tscn" id="1_46d3t"]
+[ext_resource type="Script" path="res://Enemies/fast_melee_enemy.gd" id="2_6bjg5"]
+[ext_resource type="Texture2D" uid="uid://dllgs62f40vhp" path="res://Art/Raccoon.png" id="3_wqms5"]
+
+[node name="FastMeleeEnemy" instance=ExtResource("1_46d3t")]
+scale = Vector2(0.9, 0.9)
+script = ExtResource("2_6bjg5")
+
+[node name="Crocodile" parent="RotationHelper" index="2"]
+visible = false
+
+[node name="Raccoon" type="Sprite2D" parent="RotationHelper" index="3"]
+rotation = 1.57079
+scale = Vector2(2.3993, 2.3993)
+texture = ExtResource("3_wqms5")

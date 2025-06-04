@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqhu1nmr57r0n"]
+
+[ext_resource type="PackedScene" uid="uid://dkqg2jr7a0jiy" path="res://Enemies/base_ranged_enemy.tscn" id="1_de1nx"]
+[ext_resource type="Script" path="res://Enemies/sprinker_enemy.gd" id="2_avvn6"]
+
+[node name="SprinkerEnemy" instance=ExtResource("1_de1nx")]
+script = ExtResource("2_avvn6")
+
+[node name="RangerSprites" parent="RotationHelper" index="1"]
+modulate = Color(1.92523e-07, 0.7064, 0.7064, 1)
+
+[node name="SprinkerTimer" type="Timer" parent="." index="7"]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="SprinkerTimer" to="." method="_on_sprinker_timer_timeout"]

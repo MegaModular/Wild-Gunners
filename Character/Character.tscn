@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cqdrk05neld4j"]
+[gd_scene load_steps=15 format=3 uid="uid://cqdrk05neld4j"]
 
 [ext_resource type="Script" path="res://Character/character.gd" id="1_h41gx"]
-[ext_resource type="Texture2D" uid="uid://dtcv2mlerp4i5" path="res://icon.svg" id="2_rskxn"]
+[ext_resource type="Texture2D" uid="uid://c7i0ioq3dmglg" path="res://Art/knightSprites.png" id="2_fhbiw"]
 [ext_resource type="Texture2D" uid="uid://dph0att3onwqx" path="res://Art/Slash.png" id="3_mtc4c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7gnnk"]
@@ -62,6 +62,20 @@ _data = {
 "slash": SubResource("Animation_5clig")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uelhp"]
+bg_color = Color(0.266575, 0.266575, 0.266575, 0.435294)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a5vm4"]
+bg_color = Color(0.94902, 0.054902, 0.211765, 0.564706)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [node name="Character" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 5
 collision_mask = 5
@@ -71,11 +85,14 @@ script = ExtResource("1_h41gx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_7gnnk")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.4, 0.4)
-texture = ExtResource("2_rskxn")
-
 [node name="CursorHolder" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="CursorHolder"]
+rotation = 1.57079
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_fhbiw")
+hframes = 40
+frame = 3
 
 [node name="AttackArea" type="Area2D" parent="CursorHolder"]
 collision_layer = 3
@@ -125,10 +142,20 @@ offset_bottom = 40.0
 
 [node name="ProgressBar" type="ProgressBar" parent="UI"]
 layout_mode = 0
-offset_left = 687.0
+offset_left = 48.0
 offset_top = 385.0
 offset_right = 825.0
 offset_bottom = 511.0
+
+[node name="HPBar" type="ProgressBar" parent="UI"]
+layout_mode = 0
+offset_left = -826.0
+offset_top = 385.0
+offset_right = -54.0
+offset_bottom = 511.0
+theme_override_styles/background = SubResource("StyleBoxFlat_uelhp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a5vm4")
+show_percentage = false
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

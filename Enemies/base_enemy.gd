@@ -1,12 +1,11 @@
 extends CharacterBody2D
 
 #editable
-
-@export var health : float
-@export var move_speed : float
-@export var attack_speed = 1
-@export var attack_damage = 10
-@export var knockbackDistance : float
+var max_health : float
+var move_speed : float
+var attack_speed = 1
+var attack_damage = 10
+var knockbackDistance : float
 
 #states
 var isMoving : bool = false
@@ -18,25 +17,33 @@ var playerInDamageArea : bool = false
 @onready var playerRef = $"../../Character"
 var playerPos : Vector2
 var canAttack : bool = true
+var health : float
 
 func _ready() -> void:
 	setupStats()
+	health = max_health
 
+#This gets overridden
 func setupStats() -> void:
-	health = 100
+	max_health = 100
 	move_speed = 100
 	attack_speed = 1
 	attack_damage = 10
 
 func _physics_process(delta: float) -> void:
-	playerPos = playerRef.get_position()
+	playerPos = playerRef.get_global_position()
 	
 	if !isMoving:
 		$RotationHelper.look_at(playerPos)
 	else:
 		$RotationHelper.look_at($NavigationAgent2D.get_next_path_position())
 	
+	handleHealthBar(delta)
 	handleMovement(delta)
+
+func handleHealthBar(delta):
+	$Control/Healthbar.max_value = max_health
+	$Control/Healthbar.value = lerp($Control/Healthbar.value, health, 10*delta)
 
 func handleMovement(delta):
 	#disable movement if stunned
@@ -72,7 +79,7 @@ func stopMoving() -> void:
 	$NavigationAgent2D.set_target_position(position)
 
 func applyDamage(damage) -> void:
-	print("damage applied")
+	print(str(damage) + "damage applied" + str(self))
 	health -= damage
 	spawnDamageParticles(position)
 	if health < 0:

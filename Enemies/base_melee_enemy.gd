@@ -5,8 +5,9 @@ func _ready() -> void:
 
 #constructor 
 func setupStats() -> void:
-	health = 100
-	move_speed = 100
+	max_health = 40
+	move_speed = 120
+	attack_damage = 15
 	knockbackDistance = 400
 	isRanged = false
 

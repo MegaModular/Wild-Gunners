@@ -2,7 +2,7 @@ extends "res://Enemies/base_enemy.gd"
 
 @onready var raycast = $RayCast2D
 
-var distToPlayer : float = 999999
+var distToPlayer : float
 var maxRange
 var projSpeed
 var isSmart : bool
@@ -11,7 +11,7 @@ func _ready() -> void:
 	super()
 
 func setupStats() -> void:
-	health = 100
+	max_health = 18
 	move_speed = 100
 	isRanged = true
 	attack_damage = 10
@@ -26,8 +26,8 @@ func _process(delta: float) -> void:
 	doLogicShit()
 
 func doLogicShit():
-	raycast.target_position = playerPos - position
-	distToPlayer = position.distance_to(playerPos)
+	raycast.target_position = playerPos - global_position
+	distToPlayer = global_position.distance_to(playerPos)
 	
 	if raycast.is_colliding() and raycast.get_collider().is_in_group("Player"):
 		if distToPlayer < maxRange:
@@ -53,9 +53,9 @@ func attack():
 	proj.projectileKnockback = knockbackDistance
 	#Where player is
 	if isSmart == true:
-		proj.look_at(playerPos - position)
-		proj.direction = playerPos - position
-		proj.position = position
+		proj.look_at(playerPos - global_position)
+		proj.direction = playerPos - global_position
+		proj.position = global_position
 		proj.projectileSpeed = projSpeed
 
 	#Where player will be
@@ -63,7 +63,7 @@ func attack():
 		var desiredPos = calcAimHacks(position, playerPos, playerRef.velocity, projSpeed)
 		proj.look_at(desiredPos)
 		proj.direction = desiredPos
-		proj.position = position
+		proj.position = global_position
 		proj.projectileSpeed = projSpeed
 	
 	$AttackTimer.set_wait_time(1.0/attack_speed)

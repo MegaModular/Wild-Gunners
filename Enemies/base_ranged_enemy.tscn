@@ -1,10 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkqg2jr7a0jiy"]
+[gd_scene load_steps=4 format=3 uid="uid://dkqg2jr7a0jiy"]
 
 [ext_resource type="PackedScene" uid="uid://bg7u7yooh8fp6" path="res://Enemies/base_enemy.tscn" id="1_8k0xy"]
 [ext_resource type="Script" path="res://Enemies/base_ranged_enemy.gd" id="2_jlocy"]
+[ext_resource type="Texture2D" uid="uid://datfpdc86jp5b" path="res://Art/rangerSprites.png" id="3_bn1xt"]
 
 [node name="BaseRangedEnemy" instance=ExtResource("1_8k0xy")]
 script = ExtResource("2_jlocy")
 
 [node name="RayCast2D" type="RayCast2D" parent="." index="4"]
 collision_mask = 4
+
+[node name="Sprite" parent="RotationHelper" index="0"]
+visible = false
+
+[node name="RangerSprites" type="Sprite2D" parent="RotationHelper" index="1"]
+rotation = 1.57079
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_bn1xt")
+hframes = 20

@@ -4,8 +4,8 @@ extends CharacterBody2D
 
 var attackSpeed = 1 # one attack is 0.7 seconds, this is a multiplier
 
-var health = 100
-var damage = 10
+var max_health : float = 200.0
+var damage : float = 10.1
 
 var move_speed = 40
 var rotation_speed = 5.0
@@ -31,11 +31,19 @@ var shieldHealth : float = 0
 
 var currentFocus = Vector2.ZERO
 var direction = Vector2.ZERO
-var raisingShield :float = 0
+var raisingShield : float = 0
+var health : float
 
 var enemiesInAttackArea = []
 
 func _ready() -> void:
+	$UI/HPBar.value = max_health
+	$UI/ProgressBar.value = maxShieldHealth
+	calcStats()
+
+func calcStats() -> void:
+	health = max_health
+	$UI/HPBar.max_value = health
 	$UI/ProgressBar.max_value = maxShieldHealth
 
 func _process(delta: float) -> void:
@@ -44,13 +52,23 @@ func _process(delta: float) -> void:
 	calculateMovement(delta)
 	pointStuffAtCursor(delta)
 	shieldLogic(delta)
-	$UI/ProgressBar.value = shieldHealth
+	updateStatBars(delta)
 	
 	if Input.is_action_just_pressed("lmb"):
 		attack()
 	
 	if Input.is_action_just_pressed("esc"):
 		get_tree().quit()
+
+@onready var fill_stylebox := $UI/HPBar.get_theme_stylebox("fill", "ProgressBar") as StyleBoxFlat
+
+func updateStatBars(delta) -> void:
+	$UI/ProgressBar.value = lerp($UI/ProgressBar.value, shieldHealth, 5*delta)
+	$UI/HPBar.value = lerp($UI/HPBar.value, health, 5*delta)
+	var ratio := clampf($UI/HPBar.value / $UI/HPBar.max_value, 0.0, 1.0)
+	var new_color := Color(1.0, 0, 0, 0.4).lerp(Color(0.0, 1.0, 0.0, 0.4), ratio)
+	fill_stylebox.bg_color = new_color
+	
 
 func pointStuffAtCursor(delta) -> void:
 	var mouse_pos = get_global_mouse_position()
@@ -138,8 +156,8 @@ func _on_defend_area_body_entered(body: Node2D) -> void:
 		body.bashAway(self.position, shieldBashStrength)
 		body.applyDamage(shieldBashDamage)
 		velocity += (position - body.position).normalized() * shieldKickBackDistance
-		if shieldHealth - shieldDurabilityDamage > 0:
-			shieldHealth -= 40
+		if shieldHealth - body.attack_damage > 0:
+			shieldHealth -= body.attack_damage
 		else:
 			shieldHealth = 0
 		

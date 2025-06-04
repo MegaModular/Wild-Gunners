@@ -34,5 +34,13 @@ max_speed = 200.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_50uhe")
 
+[node name="Control" type="Node2D" parent="."]
+position = Vector2(-40, -58)
+
+[node name="Healthbar" type="ProgressBar" parent="Control"]
+offset_right = 80.0
+offset_bottom = 15.0
+show_percentage = false
+
 [connection signal="timeout" from="StunTimer" to="." method="_on_stun_timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_timer_timeout"]
