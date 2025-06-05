@@ -5,14 +5,16 @@ extends CharacterBody2D
 var attackSpeed = 1 # one attack is 0.7 seconds, this is a multiplier
 
 var max_health : float = 200.0
-var damage : float = 10.1
+#regen per second
+var healthRegen : float = 2.0
+var damage : float = 8.1
 
 var move_speed = 40
 var rotation_speed = 5.0
 
-var maxShieldHealth = 100.0
+var maxShieldHealth = 60.0
 var shieldRegenRate = 10.0 #per second
-var shieldBashDamage = 20.0
+var shieldBashDamage = 10.0
 var shieldBashStrength = 20
 var shieldKickBackDistance = 800
 var shieldDurabilityDamage = 40.0
@@ -41,18 +43,60 @@ func _ready() -> void:
 	$UI/ProgressBar.value = maxShieldHealth
 	calcStats()
 
+#called every round
 func calcStats() -> void:
 	health = max_health
 	$UI/HPBar.max_value = health
 	$UI/ProgressBar.max_value = maxShieldHealth
+	#var globalBuffsList = ["regen", "dasher", "veryStrong", "strongShield", "movementGod"]
+	for s in Globals.currentBuffs:
+		if s == "regen":
+			healthRegen *= 5
+		if s == "dasher":
+			dashDistance *= 3
+		if s == "veryStrong":
+			attackSpeed *= 0.8
+			dashDistance *= 3
+			damage *= 3
+		if s == "strongShield":
+			shieldBashDamage *= 2
+			shieldRegenRate *= 3
+			maxShieldHealth *= 2
+			shieldHealth *= 3
+			$UI/ProgressBar.max_value = maxShieldHealth
+		if s == "movementGod":
+			move_speed *= 1.5
+
+#removed after each round based on globals values.
+func removeBuffs():
+	for s in Globals.currentBuffs:
+		if s == "regen":
+			healthRegen /= 5
+		if s == "dasher":
+			dashDistance /= 3
+		if s == "veryStrong":
+			attackSpeed /= 0.8
+			dashDistance /= 3
+			damage /= 3
+		if s == "strongShield":
+			shieldBashDamage /= 2
+			shieldRegenRate /= 3
+			maxShieldHealth /= 2
+			shieldHealth /= 3
+			$UI/ProgressBar.max_value = maxShieldHealth
+		if s == "movementGod":
+			move_speed /= 1.5
 
 func _process(delta: float) -> void:
 	debugFunc()
 	
+	regenHealth(delta)
 	calculateMovement(delta)
 	pointStuffAtCursor(delta)
 	shieldLogic(delta)
 	updateStatBars(delta)
+	
+	$UI/Round.set_text("Round "+str(Globals.roundCount))
 	
 	if Input.is_action_just_pressed("lmb"):
 		attack()
@@ -62,6 +106,10 @@ func _process(delta: float) -> void:
 
 @onready var fill_stylebox := $UI/HPBar.get_theme_stylebox("fill", "ProgressBar") as StyleBoxFlat
 
+func regenHealth(delta) -> void:
+	if health < max_health:
+		health += healthRegen * delta
+	
 func updateStatBars(delta) -> void:
 	$UI/ProgressBar.value = lerp($UI/ProgressBar.value, shieldHealth, 5*delta)
 	$UI/HPBar.value = lerp($UI/HPBar.value, health, 5*delta)
@@ -137,6 +185,8 @@ func shieldLogic(delta) -> void:
 func applyDamage(damage) -> void:
 	print("player hurt" + str(damage))
 	health -= damage
+	if health < 0:
+		get_tree().change_scene_to_file("res://Scenes/lose_screen.tscn")
 
 func _on_slash_cooldown_timeout() -> void:
 	ableToAttack = true

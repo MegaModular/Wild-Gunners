@@ -15,8 +15,6 @@ func setupStats() -> void:
 var closerBias = 1
 
 func attack():
-	print("attack called")
-	
 	minRange *= closerBias
 	minRange = randf_range(50, 500)
 	maxRange = minRange + 100

@@ -1,0 +1,46 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmlst28ajaupi"]
+
+[ext_resource type="PackedScene" uid="uid://bxeqp8li6sit3" path="res://Enemies/base_melee_enemy.tscn" id="1_pdexw"]
+[ext_resource type="Script" path="res://Enemies/pile_of_rats.gd" id="2_55smm"]
+[ext_resource type="Texture2D" uid="uid://c2363x8upekbo" path="res://Art/rat.png" id="3_130ch"]
+
+[node name="PileOfRats" instance=ExtResource("1_pdexw")]
+script = ExtResource("2_55smm")
+
+[node name="Crocodile" parent="RotationHelper" index="2"]
+visible = false
+
+[node name="Rats" type="Node2D" parent="RotationHelper" index="3"]
+
+[node name="Sprite2D" type="Sprite2D" parent="RotationHelper/Rats" index="0"]
+position = Vector2(-15, 6)
+rotation = -0.975368
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("3_130ch")
+
+[node name="Sprite2D2" type="Sprite2D" parent="RotationHelper/Rats" index="1"]
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_130ch")
+
+[node name="Sprite2D3" type="Sprite2D" parent="RotationHelper/Rats" index="2"]
+position = Vector2(-36, 15)
+rotation = 0.654864
+texture = ExtResource("3_130ch")
+
+[node name="Sprite2D4" type="Sprite2D" parent="RotationHelper/Rats" index="3"]
+position = Vector2(9, 20)
+rotation = -1.74312
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_130ch")
+
+[node name="Sprite2D5" type="Sprite2D" parent="RotationHelper/Rats" index="4"]
+position = Vector2(-53, 13)
+rotation = -3.40339
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_130ch")
+
+[node name="Sprite2D6" type="Sprite2D" parent="RotationHelper/Rats" index="5"]
+position = Vector2(-32, -37)
+rotation = -5.19719
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_130ch")

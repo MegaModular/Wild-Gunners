@@ -20,6 +20,7 @@ var canAttack : bool = true
 var health : float
 
 func _ready() -> void:
+	Globals.currentEnemyCount += 1
 	setupStats()
 	health = max_health
 
@@ -101,7 +102,7 @@ func stun(time):
 	$StunTimer.start()
 
 func die() -> void:
-	print(str(self) + " died.")
+	Globals.currentEnemyCount -= 1
 	queue_free()
 
 func _on_stun_timer_timeout() -> void:

@@ -1,8 +1,10 @@
-[gd_scene load_steps=50 format=4 uid="uid://cuyfn2pcpsmmj"]
+[gd_scene load_steps=52 format=4 uid="uid://cuyfn2pcpsmmj"]
 
 [ext_resource type="Texture2D" uid="uid://bpmhq8g4mjl4y" path="res://Art/TileSet_V2.png" id="1_ygiju"]
 [ext_resource type="PackedScene" uid="uid://cqdrk05neld4j" path="res://Character/Character.tscn" id="2_4wie0"]
 [ext_resource type="PackedScene" uid="uid://cpohceju1pgyh" path="res://Character/camera.tscn" id="3_vw80v"]
+[ext_resource type="PackedScene" uid="uid://dmlst28ajaupi" path="res://Enemies/pile_of_rats.tscn" id="4_y0e2h"]
+[ext_resource type="PackedScene" uid="uid://bralthnaomqxv" path="res://Enemies/bundle_of_insects.tscn" id="5_de6tp"]
 [ext_resource type="Script" path="res://game_controller.gd" id="6_csqkl"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_1nauy"]
@@ -1469,14 +1471,17 @@ tile_set = SubResource("TileSet_r5vgx")
 
 [node name="EnemiesHolder" type="Node" parent="."]
 
+[node name="PileOfRats" parent="EnemiesHolder" instance=ExtResource("4_y0e2h")]
+position = Vector2(-403, -50)
+
+[node name="Like50Flies" parent="EnemiesHolder" instance=ExtResource("5_de6tp")]
+
 [node name="Projectiles" type="Node" parent="."]
 
 [node name="gameController" type="Node2D" parent="."]
 script = ExtResource("6_csqkl")
 
 [node name="MinRoundTimer" type="Timer" parent="gameController"]
-wait_time = 10.0
-one_shot = true
-autostart = true
+wait_time = 30.0
 
 [connection signal="timeout" from="gameController/MinRoundTimer" to="gameController" method="_on_min_round_timer_timeout"]

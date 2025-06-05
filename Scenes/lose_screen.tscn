@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ssno4120nvol"]
+
+[ext_resource type="Script" path="res://Misc/lose_screen.gd" id="1_bvu14"]
+
+[node name="LoseScreen" type="Node2D"]
+script = ExtResource("1_bvu14")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 314.0
+offset_top = 152.0
+offset_right = 384.0
+offset_bottom = 175.0
+text = "You lose!"

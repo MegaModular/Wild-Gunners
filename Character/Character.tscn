@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://dph0att3onwqx" path="res://Art/Slash.png" id="3_mtc4c"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7gnnk"]
-radius = 32.0
+radius = 21.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8vn34"]
 size = Vector2(35, 69)
@@ -156,6 +156,14 @@ offset_bottom = 511.0
 theme_override_styles/background = SubResource("StyleBoxFlat_uelhp")
 theme_override_styles/fill = SubResource("StyleBoxFlat_a5vm4")
 show_percentage = false
+
+[node name="Round" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = -826.0
+offset_top = -478.0
+offset_right = -786.0
+offset_bottom = -455.0
+scale = Vector2(3.0082, 3.0082)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
