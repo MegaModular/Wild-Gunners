@@ -1479,4 +1479,8 @@ wait_time = 10.0
 one_shot = true
 autostart = true
 
+[node name="MeteorTimer" type="Timer" parent="gameController"]
+autostart = true
+
 [connection signal="timeout" from="gameController/MinRoundTimer" to="gameController" method="_on_min_round_timer_timeout"]
+[connection signal="timeout" from="gameController/MeteorTimer" to="gameController" method="_on_meteor_timer_timeout"]

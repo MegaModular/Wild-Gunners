@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://d13f001jrw13t"]
+
+[ext_resource type="Script" path="res://Scenes/mainmenu.gd" id="1_w8a7k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mp4bk"]
+font_size = 80
+
+[node name="Node2D" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_w8a7k")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(48.6343, 27.6688)
+color = Color(0.626058, 0.267019, 9.62615e-08, 1)
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 859.0
+offset_right = 1863.0
+offset_bottom = 1036.0
+text = "Play"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 513.0
+offset_top = 256.0
+offset_right = 1350.0
+offset_bottom = 366.0
+text = "Aggressive Zookeeping"
+label_settings = SubResource("LabelSettings_mp4bk")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

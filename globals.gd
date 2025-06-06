@@ -1,6 +1,6 @@
 extends Node
 
-var globalNerfsList = ["stormEye", "meteors", "doubleSpawn", 'strongSpawn', 'heavyShield', 'speedybois', 'stoneFeet', 'scorchedEarth', 'ratInfestation', 'flyInfestation', 'beeHive'] 
+var globalNerfsList = ["meteors", "doubleSpawn", 'strongSpawn', 'heavyShield', 'speedyBois', 'stoneFeet', 'scorchedEarth', 'ratInfestation', 'flyInfestation', 'beeHive'] 
 
 var globalBuffsList = ["regen", "dasher", "veryStrong", "strongShield", "movementGod"]
 
@@ -11,12 +11,39 @@ var currentEnemyCount = 0
 
 var roundCount = 0
 
+func _process(_delta):
+	if Input.is_action_just_pressed("esc"):
+		get_tree().quit()
+
 func handleNewRound():
 	roundCount += 1
-	currentNerfs.append(globalNerfsList.pick_random())
-	currentBuffs.append(globalBuffsList.pick_random())
+	for i in range(1 + floor(roundCount/2)):
+		if i % 2 == 0:
+			addUniqueModifier(true)
+		addUniqueModifier(false)
 	print("New Round:" + str(roundCount) + "\nNerfs=")
 	print(str(currentNerfs) + "\nBuffs=" + str(currentBuffs))
+
+
+func addUniqueModifier(isBuff):
+	#buffs
+	if isBuff:
+		var y = globalBuffsList.pick_random()
+		if globalBuffsList.size() == currentBuffs.size():
+			return
+		else:
+			while y in currentBuffs:
+				y = globalBuffsList.pick_random()
+		currentBuffs.append(y)
+		return
+	#nerfs
+	var y = globalNerfsList.pick_random()
+	if globalNerfsList.size() == currentNerfs.size():
+		return
+	else:
+		while y in currentNerfs:
+			y = globalNerfsList.pick_random()
+	currentNerfs.append(y)
 
 func handleEndRound():
 	currentBuffs.clear()
@@ -37,3 +64,5 @@ func handleEndRound():
 @onready var bearScene = preload("res://Enemies/tank_enemy.tscn")
 @onready var pileOfRatsScene = preload("res://Enemies/pile_of_rats.tscn")
 @onready var bundleOfFliesScene = preload("res://Enemies/bundle_of_insects.tscn")
+
+@onready var meteorScene = preload("res://Misc/meteor.tscn")

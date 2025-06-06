@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://binw51cyd0qff"]
+
+[ext_resource type="Script" path="res://Misc/meteor.gd" id="1_wyhej"]
+[ext_resource type="Texture2D" uid="uid://dtcv2mlerp4i5" path="res://icon.svg" id="2_jahox"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wcrja"]
+radius = 175.0
+
+[sub_resource type="Gradient" id="Gradient_phl8m"]
+offsets = PackedFloat32Array(0, 0.197917, 1)
+colors = PackedColorArray(0.72282, 0.37702, 0, 1, 0.807575, 0.286428, 0, 1, 0.407843, 0.407843, 0.407843, 0)
+
+[sub_resource type="Gradient" id="Gradient_870hl"]
+offsets = PackedFloat32Array(0, 0.520833, 1)
+colors = PackedColorArray(0.91424, 0.0477625, 4.81307e-07, 1, 0.8973, 0.720237, 0.2765, 1, 0.70978, 0.265658, 3.85046e-07, 1)
+
+[sub_resource type="Gradient" id="Gradient_gypwf"]
+colors = PackedColorArray(0.983679, 0.42388, 2.5028e-06, 1, 0.898451, 0.329787, 0, 1)
+
+[node name="Meteor" type="Area2D"]
+script = ExtResource("1_wyhej")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wcrja")
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="MeteorParticles" type="CPUParticles2D" parent="Node2D"]
+scale = Vector2(2, 2)
+amount = 600
+emission_shape = 1
+emission_sphere_radius = 10.0
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 200.0
+radial_accel_min = 10.0
+radial_accel_max = 100.0
+color_ramp = SubResource("Gradient_phl8m")
+color_initial_ramp = SubResource("Gradient_870hl")
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+modulate = Color(0.483301, 0.128281, 0, 1)
+self_modulate = Color(1, 1, 1, 0.501961)
+rotation = -1.5708
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_jahox")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 500
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.25
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 400.0
+linear_accel_min = -200.0
+damping_min = 10.0
+damping_max = 40.0
+angle_max = 45.0
+scale_amount_max = 5.0
+color_initial_ramp = SubResource("Gradient_gypwf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="finished" from="Explosion" to="." method="_on_explosion_finished"]

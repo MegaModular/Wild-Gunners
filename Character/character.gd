@@ -51,7 +51,7 @@ func calcStats() -> void:
 	#var globalBuffsList = ["regen", "dasher", "veryStrong", "strongShield", "movementGod"]
 	for s in Globals.currentBuffs:
 		if s == "regen":
-			healthRegen *= 5
+			healthRegen *= 3
 		if s == "dasher":
 			dashDistance *= 3
 		if s == "veryStrong":
@@ -66,12 +66,15 @@ func calcStats() -> void:
 			$UI/ProgressBar.max_value = maxShieldHealth
 		if s == "movementGod":
 			move_speed *= 1.5
+	for r in Globals.currentNerfs:
+		if r == "stoneFeet":
+			move_speed *= 0.5
 
 #removed after each round based on globals values.
 func removeBuffs():
 	for s in Globals.currentBuffs:
 		if s == "regen":
-			healthRegen /= 5
+			healthRegen /= 3
 		if s == "dasher":
 			dashDistance /= 3
 		if s == "veryStrong":
@@ -86,6 +89,9 @@ func removeBuffs():
 			$UI/ProgressBar.max_value = maxShieldHealth
 		if s == "movementGod":
 			move_speed /= 1.5
+	for r in Globals.currentNerfs:
+		if r == "stoneFeet":
+			move_speed *= 2
 
 func _process(delta: float) -> void:
 	debugFunc()
@@ -100,9 +106,6 @@ func _process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("lmb"):
 		attack()
-	
-	if Input.is_action_just_pressed("esc"):
-		get_tree().quit()
 
 @onready var fill_stylebox := $UI/HPBar.get_theme_stylebox("fill", "ProgressBar") as StyleBoxFlat
 
@@ -155,6 +158,11 @@ func attack() -> void:
 		$CursorHolder/AttackArea/CollisionShape2D2.disabled = true
 
 func shieldLogic(delta) -> void:
+	for x in Globals.currentNerfs:
+		if x == "heavyShield":
+			rotation_speed = 1.0
+		else:
+			rotation_speed = 5.0
 	#shield regen
 	if !isDefending:
 		if shieldHealth < maxShieldHealth:
@@ -183,7 +191,6 @@ func shieldLogic(delta) -> void:
 		$CursorHolder/Shield.visible = true
 
 func applyDamage(damage) -> void:
-	print("player hurt" + str(damage))
 	health -= damage
 	if health < 0:
 		get_tree().change_scene_to_file("res://Scenes/lose_screen.tscn")

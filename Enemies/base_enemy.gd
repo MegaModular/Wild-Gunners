@@ -24,6 +24,16 @@ func _ready() -> void:
 	setupStats()
 	health = max_health
 
+func globalBuffs():
+	for x in Globals.currentNerfs:
+		if x == "strongSpawn":
+			attack_damage *= 1.5
+			health *= 2
+			attack_speed *= 0.75
+		if x == "speedyBois":
+			if not isRanged:
+				move_speed *= 2
+
 #This gets overridden
 func setupStats() -> void:
 	max_health = 100
@@ -80,7 +90,6 @@ func stopMoving() -> void:
 	$NavigationAgent2D.set_target_position(position)
 
 func applyDamage(damage) -> void:
-	print(str(damage) + "damage applied" + str(self))
 	health -= damage
 	spawnDamageParticles(position)
 	if health < 0:
@@ -103,6 +112,11 @@ func stun(time):
 
 func die() -> void:
 	Globals.currentEnemyCount -= 1
+	for x in Globals.currentBuffs:
+		if x == "scorchedEarth":
+			var met = Globals.meteorScene.instantiate()
+			met.global_position = global_position
+			$"../Projectiles".add_child(met)
 	queue_free()
 
 func _on_stun_timer_timeout() -> void:
